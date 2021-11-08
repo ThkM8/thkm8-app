@@ -13,9 +13,16 @@ module.exports = (app) => {
     return context.octokit.issues.createComment(issueComment);
   });
 
+  app.on("push", async (context) => {
+    // Code was pushed to the repo, what should we do with it?
+    app.log.info(context);
+  });
+
   // For more information on building apps:
   // https://probot.github.io/docs/
 
   // To get your app running against GitHub, see:
   // https://probot.github.io/docs/development/
 };
+
+console.log(process.env);

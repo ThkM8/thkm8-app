@@ -19,7 +19,7 @@ npm start
 docker build -t thkm8 .
 
 # 2. Start container
-docker run -e APP_ID=<app-id> -e PRIVATE_KEY=<pem-value> thkm8
+docker run --env-file ./.env thkm8
 ```
 
 ## Contributing
