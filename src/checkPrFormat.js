@@ -57,8 +57,8 @@ async function commitsAreSemantic (commits, scopes, types, allCommits = false, a
 
 const logic = async (context) => {
   context.log(context.payload )
-  return;
   const { title, head } = context.payload.pull_request
+  /*
   const userConfig = await getConfig(context, 'thkm8.yml', {})
   const isVanillaConfig = Object.keys(userConfig).length === 0
   const {
@@ -98,23 +98,24 @@ const logic = async (context) => {
   }
 
   const state = isSemantic ? 'success' : 'failure'
+  */
 
   function getDescription () {
-    if (!enabled) return 'skipped; check disabled in semantic.yml config'
-    if (!isSemantic && isVanillaConfig && nonMergeCommits.length === 1) return 'PR has only one non-merge commit and it\'s not semantic; add another commit before squashing'
-    if (isSemantic && titleAndCommits) return 'ready to be merged, squashed or rebased'
-    if (!isSemantic && titleAndCommits) return 'add a semantic commit AND PR title'
-    if (hasSemanticTitle && !commitsOnly) return 'ready to be squashed'
-    if (hasSemanticCommits && !titleOnly) return 'ready to be merged or rebased'
-    if (titleOnly) return 'add a semantic PR title'
-    if (commitsOnly && anyCommit) return 'add a semantic commit'
-    if (commitsOnly) return 'make sure every commit is semantic'
+    // if (!enabled) return 'skipped; check disabled in semantic.yml config'
+    // if (!isSemantic && isVanillaConfig && nonMergeCommits.length === 1) return 'PR has only one non-merge commit and it\'s not semantic; add another commit before squashing'
+    // if (isSemantic && titleAndCommits) return 'ready to be merged, squashed or rebased'
+    // if (!isSemantic && titleAndCommits) return 'add a semantic commit AND PR title'
+    // if (hasSemanticTitle && !commitsOnly) return 'ready to be squashed'
+    // if (hasSemanticCommits && !titleOnly) return 'ready to be merged or rebased'
+    // if (titleOnly) return 'add a semantic PR title'
+    // if (commitsOnly && anyCommit) return 'add a semantic commit'
+    // if (commitsOnly) return 'make sure every commit is semantic'
     return 'add a semantic commit or PR title'
   }
 
   const status = {
     sha: head.sha,
-    state,
+    state: 'success',
     target_url: 'https://github.com/ThkM8/thkm8-app',
     description: getDescription(),
     context: 'Pull Request Standard Check'
