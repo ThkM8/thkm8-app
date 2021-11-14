@@ -206,12 +206,14 @@ async function logic2(context) {
     description: 'Bot checks done',
     context: 'Pull Request Standard Check'
   }
+  let result;
   try {
-    await context.github.repos.createStatus(context.repo(status))
+    result = await context.github.repos.createStatus(context.repo(status))
   } catch (e) {
     context.log('Error sending status', e);
   }
-  return {};
+  context.log(result)
+  return result || {};
 };
 
 exports.events = events;
