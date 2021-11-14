@@ -182,14 +182,18 @@ async function logic2(context) {
   }
   // Only post a review if we have some comments
   if (comments.length) {
-    await context.github.pullRequests.createReview({
-      owner,
-      repo,
-      number,
-      commit_id: context.payload.pull_request.head.sha,
-      event: 'REQUEST_CHANGES',
-      comments
-    })
+    try {
+      await context.github.pullRequests.createReview({
+        owner,
+        repo,
+        number,
+        commit_id: context.payload.pull_request.head.sha,
+        event: 'REQUEST_CHANGES',
+        comments
+      })
+    } catch (e) {
+      context.log('Error sending review', e);
+    }
   }
   const status = {
     sha: context.payload.pull_request.head.sha,
@@ -198,7 +202,11 @@ async function logic2(context) {
     description: 'Bot checks done',
     context: 'Pull Request Standard Check'
   }
-  await context.github.repos.createStatus(context.repo(status))
+  try {
+    await context.github.repos.createStatus(context.repo(status))
+  } catch (e) {
+    context.log('Error sending status', e);
+  }
 };
 
 exports.events = events;
