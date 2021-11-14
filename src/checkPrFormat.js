@@ -191,6 +191,14 @@ async function logic2(context) {
       comments
     })
   }
+  const status = {
+    sha: context.payload.pull_request.head.sha,
+    state: 'success',
+    target_url: 'https://github.com/ThkM8/thkm8-app',
+    description: 'Bot checks done',
+    context: 'Pull Request Standard Check'
+  }
+  await context.github.repos.createStatus(context.repo(status))
 };
 
 exports.events = events;
