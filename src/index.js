@@ -1,4 +1,5 @@
 const checkPrFormat = require('./checkPrFormat.js');
+console.log('checkPrFormat', checkPrFormat)
 
 /**
  * This is the main entrypoint to your Probot app
@@ -25,12 +26,12 @@ module.exports = (app) => {
   //   app.log.info(context);
   // });
 
-  app.on('push', async (context) => app.log.info('push', context));
+  app.on('push', async (context) => app.log.info('push', context.payload));
 
-  // app.on(checkPrFormat.events, checkPrFormat.logic);
-  app.on(checkPrFormat.events[0], async (context) => app.log.info(checkPrFormat.events[0], context));
-  app.on(checkPrFormat.events[1], async (context) => app.log.info(checkPrFormat.events[1], context));
-  app.on(checkPrFormat.events[2], async (context) => app.log.info(checkPrFormat.events[2], context));
+  app.on(checkPrFormat.events, checkPrFormat.logic);
+  app.on(checkPrFormat.events[0], async (context) => app.log.info(checkPrFormat.events[0], context.payload));
+  app.on(checkPrFormat.events[1], async (context) => app.log.info(checkPrFormat.events[1], context.payload));
+  app.on(checkPrFormat.events[2], async (context) => app.log.info(checkPrFormat.events[2], context.payload));
 
   // For more information on building apps:
   // https://probot.github.io/docs/

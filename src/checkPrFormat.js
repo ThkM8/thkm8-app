@@ -56,7 +56,6 @@ async function commitsAreSemantic (commits, scopes, types, allCommits = false, a
 }
 
 const logic = async (context) => {
-  console.log('pull_request.opened', context)
   const { title, head } = context.payload.pull_request
   const userConfig = await getConfig(context, 'thkm8.yml', {})
   const isVanillaConfig = Object.keys(userConfig).length === 0
