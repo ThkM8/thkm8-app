@@ -26,12 +26,12 @@ module.exports = (app) => {
   //   app.log.info(context);
   // });
 
-  app.on('push', async (context) => app.log.info('push', context.payload));
+  app.on('push', async (context) => context.log('push', context.payload));
 
   app.on(checkPrFormat.events, checkPrFormat.logic);
-  app.on(checkPrFormat.events[0], async (context) => app.log.info(checkPrFormat.events[0], context.payload));
-  app.on(checkPrFormat.events[1], async (context) => app.log.info(checkPrFormat.events[1], context.payload));
-  app.on(checkPrFormat.events[2], async (context) => app.log.info(checkPrFormat.events[2], context.payload));
+  app.on(checkPrFormat.events[0], async (context) => context.log(checkPrFormat.events[0], context.payload));
+  app.on(checkPrFormat.events[1], async (context) => context.log(checkPrFormat.events[1], context.payload));
+  app.on(checkPrFormat.events[2], async (context) => context.log(checkPrFormat.events[2], context.payload));
 
   // For more information on building apps:
   // https://probot.github.io/docs/
