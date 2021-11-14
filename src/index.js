@@ -28,7 +28,7 @@ module.exports = (app) => {
 
   app.on('push', async (context) => context.log(context.payload));
 
-  app.on(checkPrFormat.events, context.log(context));
+  app.on(checkPrFormat.events, checkPrFormat.logic);
   // app.on(checkPrFormat.events[0], async (context) => context.log(checkPrFormat.events[0], context.payload));
   // app.on(checkPrFormat.events[1], async (context) => context.log(checkPrFormat.events[1], context.payload));
   // app.on(checkPrFormat.events[2], async (context) => context.log(checkPrFormat.events[2], context.payload));
@@ -39,5 +39,3 @@ module.exports = (app) => {
   // To get your app running against GitHub, see:
   // https://probot.github.io/docs/development/
 };
-
-console.log(process.env);
