@@ -56,7 +56,7 @@ async function commitsAreSemantic (commits, scopes, types, allCommits = false, a
 }
 
 const logic = async (context) => {
-  context.log(context.payload)
+  context.log('pr context', context.payload.pull_request)
   const { title, head } = context.payload.pull_request
   const userConfig = await getConfig(context, 'thkm8.yml', {})
   const isVanillaConfig = Object.keys(userConfig).length === 0
@@ -74,6 +74,7 @@ const logic = async (context) => {
 
   const hasSemanticTitle = isSemanticMessage(title, scopes, types)
   const commits = await getCommits(context)
+  context.log('commits', commits);
   const hasSemanticCommits = await commitsAreSemantic(commits, scopes, types, (commitsOnly || titleAndCommits) && !anyCommit, allowMergeCommits, allowRevertCommits)
   const nonMergeCommits = commits.filter(element => !element.commit.message.startsWith('Merge'))
 

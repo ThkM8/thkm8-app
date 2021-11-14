@@ -26,7 +26,7 @@ module.exports = (app) => {
   //   app.log.info(context);
   // });
 
-  app.on('push', async (context) => context.log(context.payload));
+  app.on('push', async (context) => context.log(!!context.payload));
 
   app.on(checkPrFormat.events, checkPrFormat.logic);
   // app.on(checkPrFormat.events[0], async (context) => context.log(checkPrFormat.events[0], context.payload));
