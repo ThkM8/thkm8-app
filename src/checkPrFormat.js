@@ -131,7 +131,7 @@ async function logic2(context) {
   const owner = context.payload.repository.owner.login
   const repo = context.payload.repository.name
   const number = context.payload.number
-  const {commentLimit, commentMessage, skipBranchMatching} = await context.config('better-comments-bot.yml', {
+  const {commentLimit, commentMessage, skipBranchMatching} = await context.config('thkm8.yml', {
     commentLimit: 10,
     commentMessage: 'Please use better language in your comments :pray:',
     skipBranchMatching: null
@@ -147,38 +147,42 @@ async function logic2(context) {
   const linesCommentedOnByBot = []; // await getAllLinesCommentedOnByBot(context, owner, repo, number)
   const comments = []
   let page = 0
-  while (true) {
-    const files = await context.github.pullRequests.getFiles({
-      owner,
-      repo,
-      number,
-      headers: {accept: 'application/vnd.github.v3.diff'},
-      page,
-      per_page: 100
-    })
-    for (const file of files.data) {
-      let currentPosition = 0
-      if (!file.filename.endsWith('.js')) return
-      // In order to not spam the PR with comments we'll stop after a certain number of comments
-      if (comments.length > commentLimit) return
-      const lines = file.patch.split('n')
-      for (const line of lines) {
-        console.log("verifying")
-        if (line.startsWith('+')) {
-          if (!linesCommentedOnByBot.includes(currentPosition)) {
-            comments.push({
-              path: file.filename,
-              position: currentPosition,
-              body: 'I like this line'
-            })
+  try {
+    while (true) {
+      const files = await context.github.pullRequests.getFiles({
+        owner,
+        repo,
+        number,
+        headers: {accept: 'application/vnd.github.v3.diff'},
+        page,
+        per_page: 100
+      })
+      for (const file of files.data) {
+        let currentPosition = 0
+        if (!file.filename.endsWith('.js')) return
+        // In order to not spam the PR with comments we'll stop after a certain number of comments
+        if (comments.length > commentLimit) return
+        const lines = file.patch.split('n')
+        for (const line of lines) {
+          console.log("verifying")
+          if (line.startsWith('+')) {
+            if (!linesCommentedOnByBot.includes(currentPosition)) {
+              comments.push({
+                path: file.filename,
+                position: currentPosition,
+                body: 'I like this line'
+              })
+            }
           }
+          // We need to keep a running position of where we are in the file so we comment on the right line
+          currentPosition += 1
         }
-        // We need to keep a running position of where we are in the file so we comment on the right line
-        currentPosition += 1
       }
+      page += 1
+      if (files.data.length < 100 || comments.length >= commentLimit) break
     }
-    page += 1
-    if (files.data.length < 100 || comments.length >= commentLimit) break
+  } catch (e) {
+    context.log('Error processing lines', e);
   }
   // Only post a review if we have some comments
   if (comments.length) {
@@ -207,6 +211,7 @@ async function logic2(context) {
   } catch (e) {
     context.log('Error sending status', e);
   }
+  return {};
 };
 
 exports.events = events;
