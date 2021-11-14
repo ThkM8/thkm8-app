@@ -40,4 +40,4 @@ module.exports = (app) => {
   // https://probot.github.io/docs/development/
 };
 
-// console.log(process.env);
+console.log(process.env);
