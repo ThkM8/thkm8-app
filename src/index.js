@@ -27,8 +27,10 @@ module.exports = (app) => {
 
   app.on('push', async (context) => app.log.info('push', context));
 
-  app.on(checkPrFormat.events, checkPrFormat.logic);
-  app.on(checkPrFormat.events, async (context) => app.log.info('checkPrFormat', context));
+  // app.on(checkPrFormat.events, checkPrFormat.logic);
+  app.on(checkPrFormat.events[0], async (context) => app.log.info(checkPrFormat.events[0], context));
+  app.on(checkPrFormat.events[1], async (context) => app.log.info(checkPrFormat.events[1], context));
+  app.on(checkPrFormat.events[2], async (context) => app.log.info(checkPrFormat.events[2], context));
 
   // For more information on building apps:
   // https://probot.github.io/docs/
@@ -37,4 +39,4 @@ module.exports = (app) => {
   // https://probot.github.io/docs/development/
 };
 
-console.log(process.env);
+// console.log(process.env);

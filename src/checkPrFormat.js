@@ -121,4 +121,5 @@ const logic = async (context) => {
   return result
 };
 
-module.export = { events, logic };
+exports.events = events;
+exports.logic = logic;
